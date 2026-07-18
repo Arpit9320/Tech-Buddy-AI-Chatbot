@@ -7,29 +7,30 @@ const App = () => {
 
   const [messages, setMessages] = useState([{
     role: "system",
-    content: "Hey, how can i help with?"
+    content: "You are a helpful AI assistant."
   },])
 
     useEffect(()=>{
     const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC";
 
-    webllm.CreateMLCEngine(selectedModel, {
-      initProgressCallback: (initProgress) => {
-        console.log("Progress", initProgress);
-      }
-    }).then(engine=>{
-      setEngine(engine)
-    })
+    // webllm.CreateMLCEngine(selectedModel, {
+    //   initProgressCallback: (initProgress) => {
+    //     console.log("Progress", initProgress);
+    //   }
+    // }).then(engine=>{
+    //   setEngine(engine)
+    // })
   }, [])
 
   async function sendMsgToLlm() {
-    let tempMessage = [...messages]
-    tempMessage.push({
-      role: "user",
-      content: input
-    })
+    if (!engine) {
+      alert("Model is still loading...");
+      return;
+    }
+    let tempMessage = [...messages,  { role: "user", content: input},]
 
-    setMessages(tempMessage=>[...tempMessage])
+
+    setMessages(tempMessage)
     setInput("")
 
     const reply = await engine.chat.completions.create({
@@ -40,12 +41,7 @@ const App = () => {
 
     console.log("reply", reply)
 
-    tempMessage.push({
-      role: "assistant",
-      content: text
-    })
-
-    setMessages(tempMessage=>[...tempMessage])
+    setMessages([...tempMessage, {role: "assistant", content: text}])
 
   }
 
@@ -55,7 +51,7 @@ const App = () => {
       <div className="MsgContainer h-full w-[80%]  flex flex-col gap-5 pt-5">
 
         {
-          messages.map((message, idx)=>{
+          messages.filter(message=>message.role!=="system").map((message, idx)=>{
             return <div className={`${message.role}  message bg-[rgb(60,60,60)] border-none max-w-[90%] w-fit rounded-lg px-3 py-2 text-white`} key={idx}>
               {message.content}
             </div>
