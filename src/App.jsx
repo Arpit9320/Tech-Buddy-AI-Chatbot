@@ -2,7 +2,7 @@ import * as webllm from "@mlc-ai/web-llm";
 import { useEffect, useState } from "react";
 
 const App = () => {
-
+  const [input, setInput] = useState("")
   const [engine, setEngine] = useState(null)
 
   const [messages, setMessages] = useState([{
@@ -34,6 +34,24 @@ const App = () => {
     // })
   }, [])
 
+  async function sendMsgToLlm() {
+    let tempMessage = [...messages]
+    tempMessage.push({
+      role: "user",
+      content: input
+    })
+
+    setMessages(tempMessage)
+    setInput("")
+
+    const reply = await engine.chat.completions.create({
+      messages,
+    });
+  
+    console.log("reply", reply)
+
+  }
+
   return (
     <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center pb-28">
       
@@ -50,8 +68,18 @@ const App = () => {
       </div>
   
       <div className="inputSection bg-[rgb(41,41,41)] w-[70%] fixed bottom-8 ml-auto border border-[#3c3c3c] rounded-full py-2 pl-4 ">
-          <input type="text" placeholder="Message LLM..." className="w-[87%] mr-3 py-1 px-1.5 outline-none border-none rounded-full text-white bg-transparent"/>
-          <button className="w-[10%] py-1 px-1.5 rounded-[0.45rem] bg-amber-300 cursor-pointer hover:bg-amber-500 transition-all text-md font-semibold"> Send</button>
+          <input onClick={(dets)=>{
+            setInput(dets.target.value)
+          }} onKeyDown={(dets)=>{
+            if(dets.key == "Enter"){
+              sendMsgToLlm()
+            }
+          }} type="text" placeholder="Message LLM..." className="w-[87%] mr-3 py-1 px-1.5 outline-none border-none rounded-full text-white bg-transparent"/>
+          <button onClick={()=>{
+            if (input != null) {
+              sendMsgToLlm()
+            }
+          }} className="w-[10%] py-1 px-1.5 rounded-[0.45rem] bg-amber-300 cursor-pointer hover:bg-amber-500 transition-all text-md font-semibold"> Send</button>
         
       </div>
     </div>
