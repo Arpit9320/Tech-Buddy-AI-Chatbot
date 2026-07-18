@@ -1,16 +1,37 @@
 import * as webllm from "@mlc-ai/web-llm";
+import { useState } from "react";
 
 const App = () => {
+
+  const [messages, setMessages] = useState([{
+    role: "system",
+    content: "Hey, how can i help with?"
+  },
+  {
+    role: "user",
+    content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, eveniet."
+  },
+  {
+    role: "model",
+    content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, eveniet."
+  },
+  {
+    role: "user",
+    content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, eveniet."
+  } ])
+
   return (
     <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center pb-28">
       
       <div className="MsgContainer h-full w-[80%]  flex flex-col gap-5 pt-5">
 
-        <div className="message bg-[rgb(60,60,60)] border-none max-w-[90%] w-fit rounded-lg px-3 py-2 text-white">Hello what can i help you with?</div>
-        <div className="message user bg-[rgb(60,60,60)] border-none max-w-[90%] w-fit rounded-lg px-3 py-2 text-white">I want to learn about React</div>
-        <div className="message bg-[rgb(60,60,60)] border-none max-w-[90%] w-fit rounded-lg px-3 py-2 text-white">Ahh haa, Tell me what do you want to learn about react, I will help you out</div>
-        <div className="message user  bg-[rgb(60,60,60)] border-none max-w-[90%] w-fit rounded-lg px-3 py-2 text-white ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Placeat necessitatibus quae alias earum recusandae ullam!</div>
-        <div className="message  bg-[rgb(60,60,60)] border-none max-w-[90%] w-fit rounded-lg px-3 py-2 text-white ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Placeat necessitatibus quae alias earum recusandae ullam!</div>
+        {
+          messages.map((message, idx)=>{
+            return <div className={`${message.role}  message bg-[rgb(60,60,60)] border-none max-w-[90%] w-fit rounded-lg px-3 py-2 text-white`} key={idx}>
+              {message.content}
+            </div>
+          })
+        }
 
       </div>
   
