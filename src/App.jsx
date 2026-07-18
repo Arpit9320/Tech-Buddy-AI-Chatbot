@@ -8,18 +8,18 @@ const App = () => {
   const [messages, setMessages] = useState([{
     role: "system",
     content: "You are an helpful assistant that can help me with my tasks"
-  },])
+  }])
 
     useEffect(()=>{
     const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC";
 
-    // webllm.CreateMLCEngine(selectedModel, {
-    //   initProgressCallback: (initProgress) => {
-    //     console.log("Progress", initProgress);
-    //   }
-    // }).then(engine=>{
-    //   setEngine(engine)
-    // })
+    webllm.CreateMLCEngine(selectedModel, {
+      initProgressCallback: (initProgress) => {
+        console.log("Progress", initProgress);
+      }
+    }).then(engine=>{
+      setEngine(engine)
+    })
   }, [])
 
   async function sendMsgToLlm() {
@@ -46,9 +46,9 @@ const App = () => {
   }
 
   return (
-    <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center pb-28">
+    <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center lg:pb-28 pb-26">
       
-      <div className="MsgContainer h-full w-[80%]  flex flex-col gap-5 pt-5">
+      <div className="MsgContainer h-full lg:w-[80%] w-[93%] flex flex-col gap-5 pt-5">
 
         {
           messages.filter(message=>message.role!=="system").map((message, idx)=>{
@@ -60,7 +60,7 @@ const App = () => {
 
       </div>
   
-      <div className="inputSection bg-[rgb(41,41,41)] w-[70%] fixed bottom-8 ml-auto border border-[#3c3c3c] rounded-full py-2 pl-4 ">
+      <div className="inputSection bg-[rgb(41,41,41)] lg:w-[70%] w-[80%] fixed bottom-8 ml-auto border border-[#3c3c3c] lg:rounded-full rounded-4xl pr-3 flex gap-3">
           <input value={input} onChange={(dets)=>{
             setInput(dets.target.value)
           }} onKeyDown={(dets)=>{
@@ -68,12 +68,12 @@ const App = () => {
               if (input != "") {
               sendMsgToLlm()
             }}
-          }} type="text" placeholder="Message LLM..." className="w-[87%] mr-3 py-1 px-1.5 outline-none border-none rounded-full text-white bg-transparent"/>
+          }} type="text" placeholder="Message LLM..." className="flex-1  py-3 pl-4 outline-none border-none rounded-l-full text-white  bg-transparent" />
           <button onClick={()=>{
             if (input != "") {
               sendMsgToLlm()
             }
-          }} className="w-[10%] py-1 px-1.5 rounded-[0.45rem] bg-amber-300 cursor-pointer hover:bg-amber-500 transition-all text-md font-semibold"> Send</button>
+          }} className="lg:w-[8%] w- h-[80%] m-auto py-1 px-1.5 rounded-[0.45rem] bg-amber-300 cursor-pointer hover:bg-amber-500 transition-all text-md font-semibold"> Send</button>
         
       </div>
     </div>
@@ -81,3 +81,6 @@ const App = () => {
 }
 
 export default App
+// lg:w-[87%]
+// py-2  pl-4
+// mr-3
