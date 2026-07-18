@@ -11,3 +11,7 @@
   background: rgb(98, 98, 98);
   border-radius: 10px;
 }
+
+.user{
+  align-self: flex-end;
+}
