@@ -8,30 +8,18 @@ const App = () => {
   const [messages, setMessages] = useState([{
     role: "system",
     content: "Hey, how can i help with?"
-  },
-  {
-    role: "user",
-    content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, eveniet."
-  },
-  {
-    role: "model",
-    content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, eveniet."
-  },
-  {
-    role: "user",
-    content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, eveniet."
-  } ])
+  },])
 
     useEffect(()=>{
-    // const selectedModel = "Llama-3.1-8B-Instruct-q4f32_1-MLC";
+    const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC";
 
-    // webllm.CreateMLCEngine(selectedModel, {
-    //   initProgressCallback: (initProgress) => {
-    //     console.log("Progress", initProgress);
-    //   }
-    // }).then(engine=>{
-    //   setEngine(engine)
-    // })
+    webllm.CreateMLCEngine(selectedModel, {
+      initProgressCallback: (initProgress) => {
+        console.log("Progress", initProgress);
+      }
+    }).then(engine=>{
+      setEngine(engine)
+    })
   }, [])
 
   async function sendMsgToLlm() {
@@ -41,14 +29,23 @@ const App = () => {
       content: input
     })
 
-    setMessages(tempMessage)
+    setMessages(tempMessage=>[...tempMessage])
     setInput("")
 
     const reply = await engine.chat.completions.create({
-      messages,
+      messages: tempMessage
     });
   
+    const text = reply.choices[0].message.content
+
     console.log("reply", reply)
+
+    tempMessage.push({
+      role: "assistant",
+      content: text
+    })
+
+    setMessages(tempMessage=>[...tempMessage])
 
   }
 
@@ -68,15 +65,16 @@ const App = () => {
       </div>
   
       <div className="inputSection bg-[rgb(41,41,41)] w-[70%] fixed bottom-8 ml-auto border border-[#3c3c3c] rounded-full py-2 pl-4 ">
-          <input onClick={(dets)=>{
+          <input value={input} onChange={(dets)=>{
             setInput(dets.target.value)
           }} onKeyDown={(dets)=>{
             if(dets.key == "Enter"){
+              if (input != "") {
               sendMsgToLlm()
-            }
+            }}
           }} type="text" placeholder="Message LLM..." className="w-[87%] mr-3 py-1 px-1.5 outline-none border-none rounded-full text-white bg-transparent"/>
           <button onClick={()=>{
-            if (input != null) {
+            if (input != "") {
               sendMsgToLlm()
             }
           }} className="w-[10%] py-1 px-1.5 rounded-[0.45rem] bg-amber-300 cursor-pointer hover:bg-amber-500 transition-all text-md font-semibold"> Send</button>
