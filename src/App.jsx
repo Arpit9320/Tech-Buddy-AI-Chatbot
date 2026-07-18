@@ -7,7 +7,7 @@ const App = () => {
 
   const [messages, setMessages] = useState([{
     role: "system",
-    content: "You are a helpful AI assistant."
+    content: "You are an helpful assistant that can help me with my tasks"
   },])
 
     useEffect(()=>{
@@ -52,7 +52,7 @@ const App = () => {
 
         {
           messages.filter(message=>message.role!=="system").map((message, idx)=>{
-            return <div className={`${message.role}  message bg-[rgb(60,60,60)] border-none max-w-[90%] w-fit rounded-lg px-3 py-2 text-white`} key={idx}>
+            return <div className={`${message.role}  message  border-none max-w-[90%] w-fit  text-white`} key={idx}>
               {message.content}
             </div>
           })
