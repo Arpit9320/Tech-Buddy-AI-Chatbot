@@ -1,7 +1,9 @@
 import * as webllm from "@mlc-ai/web-llm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const App = () => {
+
+  const [engine, setEngine] = useState(null)
 
   const [messages, setMessages] = useState([{
     role: "system",
@@ -19,6 +21,18 @@ const App = () => {
     role: "user",
     content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, eveniet."
   } ])
+
+    useEffect(()=>{
+    // const selectedModel = "Llama-3.1-8B-Instruct-q4f32_1-MLC";
+
+    // webllm.CreateMLCEngine(selectedModel, {
+    //   initProgressCallback: (initProgress) => {
+    //     console.log("Progress", initProgress);
+    //   }
+    // }).then(engine=>{
+    //   setEngine(engine)
+    // })
+  }, [])
 
   return (
     <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center pb-28">
