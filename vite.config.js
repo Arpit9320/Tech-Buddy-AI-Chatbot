@@ -33,11 +33,11 @@ export default defineConfig({
         start_url: "/",
 
         icons: [
-          {
-            src: "best_logo_Nobg(192x192).png",
-            sizes: "192x192",
-            type: "image/png",
-          },
+          // {
+          //   src: "best_logo_Nobg(192x192).png",
+          //   sizes: "192x192",
+          //   type: "image/png",
+          // },
 
           {
             src: "best_logo_Nobg(512x512).png",

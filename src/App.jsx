@@ -13,6 +13,9 @@ const App = () => {
   const [messages, setMessages] = useState([{
     role: "system",
     content: "You are an helpful assistant that can help me with my tasks"
+  }, {
+    role: "assistant",
+    content: "Hey! I am your assistant. How can I help you today?"
   }])
 
     useEffect(()=>{
@@ -94,11 +97,12 @@ const App = () => {
       <div className="MsgContainer h-full lg:w-[80%] w-[93%] flex flex-col gap-5 pt-5">
 
         {
+          engine?
           messages.filter(message=>message.role!=="system").map((message, idx)=>{
             return <div className={`${message.role}  message  border-none max-w-[90%] w-fit  text-white`} key={idx}>
               {message.content}
             </div>
-          })
+          }) : null
         }
 
       </div>
@@ -124,6 +128,3 @@ const App = () => {
 }
 
 export default App
-// lg:w-[87%]
-// py-2  pl-4
-// mr-3
