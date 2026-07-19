@@ -1,7 +1,11 @@
 import * as webllm from "@mlc-ai/web-llm";
 import { useEffect, useState } from "react";
+import ProgressBar from "./components/ProgressBar";
 
 const App = () => {
+  const [progress, setProgress] = useState(0);
+  const [status, setStatus] = useState("");
+  const [loadingModel, setLoadingModel] = useState(true);
   const [input, setInput] = useState("")
   const [engine, setEngine] = useState(null)
 
@@ -16,9 +20,12 @@ const App = () => {
     webllm.CreateMLCEngine(selectedModel, {
       initProgressCallback: (initProgress) => {
         console.log("Progress", initProgress);
+        setProgress(initProgress.progress);
+        setStatus(initProgress.text);
       }
     }).then(engine=>{
       setEngine(engine)
+      setLoadingModel(false);
     })
   }, [])
 
@@ -47,6 +54,10 @@ const App = () => {
 
   return (
     <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center lg:pb-28 pb-26">
+
+      {loadingModel && (
+        <ProgressBar progress={progress} status={status}/>
+      )}
       
       <div className="MsgContainer h-full lg:w-[80%] w-[93%] flex flex-col gap-5 pt-5">
 
