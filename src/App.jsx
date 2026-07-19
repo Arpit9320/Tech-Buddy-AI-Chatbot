@@ -22,7 +22,7 @@ const App = () => {
           setStatus("Preparing AI Model...");
           setError("");
 
-          const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC";
+          const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC";
 
           const loadedEngine = await webllm.CreateMLCEngine(selectedModel, {
             initProgressCallback: (initProgress) => {
