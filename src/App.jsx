@@ -81,7 +81,7 @@ const App = () => {
     <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center lg:pb-28 pb-26">
 
       {error && (
-        <div className="fixed lg:top-1/2 top-55 left-1/2 -translate-x-1/2 lg:-translate-y-1/2 bg-red-600 text-white px-5 py-3 rounded-lg shadow-lg max-w-[90%] wrap-break z-50">
+        <div className="fixed lg:top-1/2 top-55 left-1/2 -translate-x-1/2 lg:-translate-y-1/2 bg-red-600 text-white px-3 py-2 rounded-lg shadow-lg w-fit wrap-break z-50">
           <p className="font-semibold">Error</p>
           <p className="text-sm">{error}</p>
         </div>
