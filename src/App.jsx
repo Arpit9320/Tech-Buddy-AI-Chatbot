@@ -82,6 +82,13 @@ const App = () => {
   return (
     <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center lg:pb-28 pb-26">
 
+      {error && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 bg-red-600 text-white px-5 py-3 rounded-lg shadow-lg max-w-[90%] break-words z-50">
+          <p className="font-semibold">Error</p>
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
       {loadingModel && (
         <ProgressBar progress={progress} status={status}/>
       )}
