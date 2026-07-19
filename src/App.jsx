@@ -22,7 +22,7 @@ const App = () => {
           setStatus("Preparing AI Model...");
           setError("");
 
-          const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC";
+          const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC";
 
           const loadedEngine = await webllm.CreateMLCEngine(selectedModel, {
             initProgressCallback: (initProgress) => {
@@ -30,12 +30,10 @@ const App = () => {
               setProgress(initProgress.progress);
               setStatus(initProgress.text);
             }
-          }).then(engine=>{
-            setEngine(engine)
-            setLoadingModel(false);
           })
 
           setEngine(loadedEngine);
+          setLoadingModel(false);
           setStatus("Model Loaded Successfully!");
 
         } catch (err) {
@@ -83,7 +81,7 @@ const App = () => {
     <div className="main min-h-screen w-full bg-[rgb(7,7,7)] relative flex justify-center lg:pb-28 pb-26">
 
       {error && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 bg-red-600 text-white px-5 py-3 rounded-lg shadow-lg max-w-[90%] break-words z-50">
+        <div className="fixed lg:top-1/2 top-55 left-1/2 -translate-x-1/2 lg:-translate-y-1/2 bg-red-600 text-white px-5 py-3 rounded-lg shadow-lg max-w-[90%] wrap-break z-50">
           <p className="font-semibold">Error</p>
           <p className="text-sm">{error}</p>
         </div>
