@@ -8,6 +8,7 @@ const App = () => {
   const [loadingModel, setLoadingModel] = useState(true);
   const [input, setInput] = useState("")
   const [engine, setEngine] = useState(null)
+  const [error, setError] = useState("");
 
   const [messages, setMessages] = useState([{
     role: "system",
@@ -15,18 +16,44 @@ const App = () => {
   }])
 
     useEffect(()=>{
-    const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC";
 
-    webllm.CreateMLCEngine(selectedModel, {
-      initProgressCallback: (initProgress) => {
-        console.log("Progress", initProgress);
-        setProgress(initProgress.progress);
-        setStatus(initProgress.text);
+      async function LoadEngine() {
+        try {
+          setStatus("Preparing AI Model...");
+          setError("");
+
+          const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC";
+
+          const loadedEngine = await webllm.CreateMLCEngine(selectedModel, {
+            initProgressCallback: (initProgress) => {
+              console.log("Progress", initProgress);
+              setProgress(initProgress.progress);
+              setStatus(initProgress.text);
+            }
+          }).then(engine=>{
+            setEngine(engine)
+            setLoadingModel(false);
+          })
+
+          setEngine(loadedEngine);
+          setStatus("Model Loaded Successfully!");
+
+        } catch (err) {
+          console.error(err);
+
+          const errorMessage = err?.message || err?.toString() || "Unknown error occurred";
+
+          setError(errorMessage);
+          setStatus("Failed to load model");
+          alert(errorMessage);
+        }
       }
-    }).then(engine=>{
-      setEngine(engine)
-      setLoadingModel(false);
-    })
+
+      LoadEngine();
+
+    // const selectedModel = "TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC";
+
+
   }, [])
 
   async function sendMsgToLlm() {
